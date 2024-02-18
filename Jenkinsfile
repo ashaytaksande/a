@@ -18,6 +18,7 @@ pipeline {
             steps {
                 sh 'echo "\nwebsite-${version}.tar" >> .dockerignore'
                 sh '''
+                pwd
                 cat .dockerignore
                 docker build -t ashayalmighty/website:${version} .
                 docker save -o website-${version}.tar ashayalmighty/website:${version}
