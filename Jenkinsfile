@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('If commit is made to develop branch, just build the product, do not publish."') {
             agent {
-                label 'TestNode'
+                label 'build_image'
             }
             when {
                 expression {
@@ -26,7 +26,7 @@ pipeline {
         }
             stage('If commit is made to master branch, build and publish website on port 82') {
             agent {
-                label 'TestNode'
+                label 'build_image'
             }
             when {
                 expression {
