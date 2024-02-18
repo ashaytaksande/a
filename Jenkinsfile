@@ -49,8 +49,8 @@ pipeline {
                     sh '''
                     cd /home/ubuntu/
                     pwd
-                    docker container stop website
                     docker load -i website-${version}.tar
+                    docker rm -f website
                     docker run -d -p 82:80 --name website ashayalmighty/website:${version}
                     '''
                 }
