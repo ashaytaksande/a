@@ -17,6 +17,7 @@ pipeline {
             }
             steps {
                 sh '''
+                echo "website-${version}.tar" >> .dockerignore 
                 docker build -t ashayalmighty/website:${version} .
                 docker save -o website-${version}.tar ashayalmighty/website:${version}
                 rsync -azPpr -e ssh website-${version}.tar ${destination}:/home/ubuntu/
