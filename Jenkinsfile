@@ -2,7 +2,7 @@ pipeline {
     agent 'any'
     environment {
         destination = 'ubuntu@ec2-18-206-252-248.compute-1.amazonaws.com'
-        version = "${env.BUILD_ID}-${env.GIT_COMMIT.substring(0, 4)}"
+        version = "${env.BUILD_ID}-${env.GIT_COMMIT.substring(0, 5)}"
         branchName = "${env.GIT_BRANCH.split('/').size() == 1 ? env.GIT_BRANCH.split('/')[-1] : env.GIT_BRANCH.split('/')[1..-1].join('/')}"
     }
     stages {
@@ -18,6 +18,7 @@ pipeline {
             steps {
                 sh 'echo "\nwebsite-${version}.tar" >> .dockerignore'
                 sh '''
+                cat .dockerignore
                 docker build -t ashayalmighty/website:${version} .
                 docker save -o website-${version}.tar ashayalmighty/website:${version}
                 rsync -azPpr -e ssh website-${version}.tar ${destination}:/home/ubuntu/
