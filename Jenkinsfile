@@ -16,11 +16,11 @@ pipeline {
                 }
             }
             steps {
-                sh 'echo "website-${version}.tar" >> .dockerignore'
+                sh 'echo "\nwebsite-${version}.tar" >> .dockerignore'
                 sh '''
                 docker build -t ashayalmighty/website:${version} .
                 docker save -o website-${version}.tar ashayalmighty/website:${version}
-                rsync -azPpr -e ssh website-${version}.tar ${destination}:/home/ubuntu/workspace/test
+                rsync -azPpr -e ssh website-${version}.tar ${destination}:/home/ubuntu/workspace/test/
                 '''
             }
         }
