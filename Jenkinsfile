@@ -16,7 +16,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'echo "\nwebsite-${version}.tar" >> .dockerignore'
+                //sh 'echo "\nwebsite-${version}.tar" >> .dockerignore'
                 sh '''
                 pwd
                 cat .dockerignore
@@ -54,5 +54,10 @@ pipeline {
                     '''
                 }
             }
+    }
+    post {
+        always {
+            cleanWs()
+        }
     }
 }
