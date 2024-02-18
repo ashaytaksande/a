@@ -44,7 +44,7 @@ pipeline {
                 }
                 steps {
                     //sh 'echo both jobs completed successfully'
-                    '''
+                    sh '''
                     docker load -i ashayalmighty/website:${version}.tar
                     docker run -d -p 82:80 --name website ashayalmighty/website:${version}
                     '''
