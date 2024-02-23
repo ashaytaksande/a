@@ -2,7 +2,7 @@ pipeline {
     agent 'any'
     environment {
         destination = 'ubuntu@ec2-54-86-210-149.compute-1.amazonaws.com'
-        version = "${env.BUILD_ID}-${env.GIT_COMMIT.substring(0, 5)}"
+        //version = "${env.BUILD_ID}-${env.GIT_COMMIT.substring(0, 5)}"
         branchName = "${env.GIT_BRANCH.split('/').size() == 1 ? env.GIT_BRANCH.split('/')[-1] : env.GIT_BRANCH.split('/')[1..-1].join('/')}"
     }
     stages {
@@ -39,18 +39,6 @@ pipeline {
                 '''
             }
             }
-            stage('publish website on port 82') {
-                agent {
-                    label 'publish'
-                }
-                steps {
-                    sh '''
-                    cd /home/ubuntu/
-                    docker load -i website-${version}.tar
-                    docker rm -f website
-                    docker run -d -p 82:80 --name website ashayalmighty/website:${version}
-                    '''
-                }
-            }
+            
     }
 }
