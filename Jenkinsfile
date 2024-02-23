@@ -22,7 +22,7 @@ pipeline {
                 '''
             }
         }
-            stage('If commit is made to master branch, build and send image to production server') {
+        stage('If commit is made to master branch, build and send image to production server') {
             agent {
                 label 'build_image'
             }
@@ -38,7 +38,24 @@ pipeline {
                 rsync -azPpr -e ssh website-${version}.tar ${destination}:/home/ubuntu/
                 '''
             }
+        }
+        stage('publish website on port 82') {
+            agent {
+                label 'publish'
             }
-            
+            when {
+                expression {
+                    branchName == 'master'
+                }
+            }
+            steps {
+                sh '''
+                cd /home/ubuntu/
+                docker load -i website-${version}.tar
+                docker rm -f website
+                docker run -d -p 82:80 --name website ashayalmighty/website:${version}
+                '''
+            }
+        }
     }
 }
