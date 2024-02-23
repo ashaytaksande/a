@@ -45,6 +45,7 @@ pipeline {
                 }
                 steps {
                     sh '''
+                    cd /home/ubuntu/
                     docker load -i website-${version}.tar
                     docker rm -f website
                     docker run -d -p 82:80 --name website ashayalmighty/website:${version}
